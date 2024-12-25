@@ -18,7 +18,7 @@ def pasteToClipboard(stringToPaste):
 
 chars = "∑∏∞∂∫∇±≠≤≥≈∝√∛∜∴∵∟⊥∞"
 charButtons = []
-numberOfColumns = 3
+numberOfColumns = 5
 currentRow = 0
 currentColumn = 0
 for char in chars:
@@ -26,6 +26,7 @@ for char in chars:
         ttk.Button(
             charFrame,
             text=char,
+            width=5,
             command=lambda c=char: pasteToClipboard(c)
         )
     )
