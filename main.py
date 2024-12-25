@@ -1,6 +1,15 @@
 from tkinter import *
 from tkinter import ttk
+import os
 import webbrowser
+
+def readFavourites():
+    path = "favorites.txt"
+    if not os.path.exists(path): # Create 'favorites.txt' if it doesn't exist.
+        open(path, 'w').close()
+        
+    with open(path, 'r') as file:
+        return file.read()
 
 def pasteToClipboard(stringToPaste):
     root.clipboard_clear()
@@ -46,7 +55,7 @@ root.resizable(False, False)
 # Logic
 chars = "∀∂∃∅∆∇∞∫∏∑√≈≠≡≤≥⊂⊃⊄⊆⊇⊥⊮⊰⊱∪∩∧∨∼≃≅≆∝∞∠∫αβγδεζηθικλμνξοπρσςτυχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
 alwaysOnTop = IntVar(value=1)
-favorites = "abcd"
+favorites = readFavourites()
 clipboard = StringVar() # Currently selected character. Connected to clipboardInfo Label.
 clipboard.set("None")
 
