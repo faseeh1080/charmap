@@ -97,7 +97,6 @@ chars = "αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛ�
 alwaysOnTop = IntVar(value=1)
 favorites = readFavourites()
 clipboard = StringVar() # Currently selected character. Connected to clipboardInfo Label.
-clipboard.set("None")
 
 # Menu
 rootMenu = Menu(root)
@@ -145,15 +144,15 @@ favoriteCharsFrame.grid(row=1, column=0, sticky=N)
 allCharsLabel = ttk.Label(allChars, text="All characters")
 favoriteCharsLabel = ttk.Label(favoritesFrame, text="Favorites")
 clipboardLabel = ttk.Label(actionFrame, text="Clipboard :")
-clipboardInfo = ttk.Label(actionFrame, textvariable=clipboard)
+clipboardInfo = ttk.Entry(actionFrame, textvariable=clipboard, width=5)
 addButton = ttk.Button(actionFrame, text="Add to Favorites", command=addToFavourites)
 removeButton = ttk.Button(actionFrame, text="Remove from Favorites", command=removeFromFavorites)
 
 allCharsLabel.grid(row=0, column=0)
 favoriteCharsLabel.grid(row=0, column=0)
 clipboardLabel.grid(row=0, column=0)
-clipboardInfo.grid(row=0, column=1)
-addButton.grid(row=0, column=2)
+clipboardInfo.grid(row=0, column=1, padx=2)
+addButton.grid(row=0, column=2, padx=2)
 removeButton.grid(row=0, column=3)
 
 # Widgets (2)
@@ -162,5 +161,7 @@ favoriteCharButtons = createCharButtons(favoriteCharsFrame, favorites)
 
 gridButtons(charButtons, 5)
 gridButtons(favoriteCharButtons, 3)
+
+clipboard.set("") # Empty clipboard on start.
 
 root.mainloop()
