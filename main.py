@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import os
+import platform
 import webbrowser
 
 def readFavourites():
@@ -35,6 +36,15 @@ def removeFromFavorites():
     favorites = favorites.replace(clipboard.get(), '')
     favorites = ''.join(sorted(favorites))
     refreshFavorites()
+
+def goToFavorites():
+    filePath = "favorites.txt"
+    if platform.system() == "Windows":  # For Windows.
+        os.startfile(filePath)
+    elif platform.system() == "Darwin":  # For MacOS.
+        os.system(f"open {filePath}")
+    else:  # For Linux.
+        os.system(f"xdg-open {filePath}")
 
 def pasteToClipboard(stringToPaste):
     root.clipboard_clear()
@@ -90,7 +100,7 @@ root.config(menu=rootMenu)
 
 ## File Menu
 fileMenu = Menu(rootMenu, tearoff=0)
-fileMenu.add_command(label="Open Favourites File", command=lambda: print("open favourites"))
+fileMenu.add_command(label="Open Favourites File", command=goToFavorites)
 fileMenu.add_command(label="Clear Favourites")
 fileMenu.add_separator()
 fileMenu.add_command(label="Exit", command=lambda: root.destroy())
