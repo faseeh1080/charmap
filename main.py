@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import webbrowser
 
 def pasteToClipboard(stringToPaste):
     root.clipboard_clear()
@@ -28,13 +29,48 @@ def gridButtons(buttons, noOfColumns):
         button.grid(row=currentRow, column=currentColumn)
         currentColumn += 1
 
-# Logic
-chars = "∑∏∞∂∫∇±≠≤≥≈∝√∛∜∴∵∟⊥∞"
+def alwaysOnTopCheckButtonAction():
+    if alwaysOnTop.get() == 1:
+        root.attributes('-topmost', True)
+    else:
+        root.attributes('-topmost', False)
 
 # Window
 root = Tk()
 root.title("Faseeh's CharMap")
 root.attributes('-topmost', True)
+
+# Logic
+chars = "∑∏∞∂∫∇±≠≤≥≈∝√∛∜∴∵∟⊥∞"
+alwaysOnTop = IntVar(value=1)
+
+# Menu
+rootMenu = Menu(root)
+root.config(menu=rootMenu)
+
+## File Menu
+fileMenu = Menu(rootMenu)
+fileMenu.add_command(label="Open Favourites File", command=lambda: print("open favourites"))
+fileMenu.add_command(label="Clear Favourites")
+fileMenu.add_separator()
+fileMenu.add_command(label="Exit", command=lambda: root.destroy())
+
+## View Menu
+viewMenu = Menu(rootMenu)
+viewMenu.add_checkbutton(label="Always on Top", variable=alwaysOnTop, command=alwaysOnTopCheckButtonAction)
+viewMenu.add_command(label="Scale 1.0", command=pasteToClipboard("Scale"))
+viewMenu.add_command(label="Scale 1.2", command=pasteToClipboard("Scale"))
+viewMenu.add_command(label="Scale 1.4", command=pasteToClipboard("Scale"))
+viewMenu.add_command(label="Scale 1.6", command=pasteToClipboard("Scale"))
+viewMenu.add_command(label="Scale 1.8", command=pasteToClipboard("Scale"))
+viewMenu.add_command(label="Scale 2.0", command=pasteToClipboard("Scalea"))
+viewMenu.add_separator()
+viewMenu.add_command(label="Reset Scaling", command=pasteToClipboard("Reset"))
+
+## Configure the menus.
+rootMenu.add_cascade(label="File", menu=fileMenu)
+rootMenu.add_cascade(label="View", menu=viewMenu)
+rootMenu.add_command(label="Help", command=lambda: webbrowser.open("https://faseeh-z.github.io/"))
 
 # Containers
 charFrame = ttk.Frame(root, padding="6 6 6 6") # To place character buttons.
