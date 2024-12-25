@@ -46,6 +46,11 @@ def goToFavorites():
     else:  # For Linux.
         os.system(f"xdg-open {filePath}")
 
+def clearFavorites():
+    global favorites
+    favorites = ""
+    refreshFavorites()
+
 def pasteToClipboard(stringToPaste):
     root.clipboard_clear()
     root.clipboard_append(stringToPaste)
@@ -101,7 +106,7 @@ root.config(menu=rootMenu)
 ## File Menu
 fileMenu = Menu(rootMenu, tearoff=0)
 fileMenu.add_command(label="Open Favourites File", command=goToFavorites)
-fileMenu.add_command(label="Clear Favourites")
+fileMenu.add_command(label="Clear Favourites", command=clearFavorites)
 fileMenu.add_separator()
 fileMenu.add_command(label="Exit", command=lambda: root.destroy())
 
