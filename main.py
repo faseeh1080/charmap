@@ -3,6 +3,7 @@ from tkinter import ttk
 
 root = Tk()
 root.title("Faseeh's CharMap")
+root.attributes('-topmost', True)
 
 # Frame to place character buttons.
 charFrame = ttk.Frame(root, padding="6 6 6 6")
