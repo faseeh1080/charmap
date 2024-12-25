@@ -95,6 +95,7 @@ def help():
 # Window
 root = Tk()
 root.title("Faseeh's CharMap")
+root.iconbitmap("assets/icon.ico")
 root.config(padx=6, pady=6)
 root.attributes('-topmost', True)
 root.resizable(False, False)
