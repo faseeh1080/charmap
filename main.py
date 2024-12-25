@@ -22,7 +22,7 @@ def createCharButtons(frame, chars):
 def gridButtons(buttons, noOfColumns):
     currentRow = 0
     currentColumn = 0
-    for button in charButtons:
+    for button in buttons:
         if currentColumn >= noOfColumns:
             currentRow += 1
             currentColumn = 0
@@ -43,6 +43,7 @@ root.attributes('-topmost', True)
 # Logic
 chars = "∑∏∞∂∫∇±≠≤≥≈∝√∛∜∴∵∟⊥∞"
 alwaysOnTop = IntVar(value=1)
+favorites = "abcd"
 
 # Menu
 rootMenu = Menu(root)
@@ -74,10 +75,20 @@ rootMenu.add_command(label="Help", command=lambda: webbrowser.open("https://fase
 
 # Containers
 charFrame = ttk.Frame(root, padding="6 6 6 6") # To place character buttons.
-charFrame.grid(column=0, row=0, sticky=(N, W, E, S))
+charFrame.grid(row=1, column=0, sticky=N)
+favoritesFrame = ttk.Frame(root, padding="6 6 6 6")
+favoritesFrame.grid(row=1, column=1, sticky=N)
 
 # Widgets
+allCharsLabel = ttk.Label(root, text="All characters")
+allCharsLabel.grid(row=0, column=0)
+favoriteCharsLabel = ttk.Label(root, text="Favorites")
+favoriteCharsLabel.grid(row=0, column=1)
+
+## Characters
 charButtons = createCharButtons(charFrame, chars)
 gridButtons(charButtons, 5)
+favoriteCharButtons = createCharButtons(favoritesFrame, favorites)
+gridButtons(favoriteCharButtons, 3)
 
 root.mainloop()
