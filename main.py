@@ -89,6 +89,9 @@ def alwaysOnTopCheckButtonAction():
     else:
         root.attributes('-topmost', False)
 
+def help():
+    messagebox.showinfo("Quick help", "• Click on any character to copy it to your clipboard.\n• Add your favorite characters to the 'Favorites' list for easy access.\n• If you need a character that's missing, just add it using the 'Clipboard' field at the bottom!\n\n'Help/From the Web' for more information.")
+
 # Window
 root = Tk()
 root.title("Faseeh's CharMap")
@@ -124,10 +127,15 @@ viewMenu.add_command(label="Scale 1.6", command=pasteToClipboard("Scale"))
 viewMenu.add_separator()
 viewMenu.add_command(label="Reset Scaling", command=pasteToClipboard("Reset"))
 
+## Help Menu
+helpMenu = Menu(rootMenu, tearoff=0)
+helpMenu.add_command(label="Quick help", command=help)
+helpMenu.add_command(label="From the Web", command=lambda: webbrowser.open("https://faseeh-z.github.io/"))
+
 ## Configure the menus.
 rootMenu.add_cascade(label="File", menu=fileMenu)
 rootMenu.add_cascade(label="View", menu=viewMenu)
-rootMenu.add_command(label="Help", command=lambda: webbrowser.open("https://faseeh-z.github.io/"))
+rootMenu.add_cascade(label="Help", menu=helpMenu)
 
 # Frames (1)
 allChars = ttk.Frame(root, padding="0 0 0 0", borderwidth=5, relief="solid") # Holds allChars frame.
