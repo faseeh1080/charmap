@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import os
 import platform
 import webbrowser
@@ -8,6 +9,9 @@ def readFavourites():
     path = "favorites.txt"
     if not os.path.exists(path): # Create 'favorites.txt' if it doesn't exist.
         open(path, 'w').close()
+        # Since there is no 'favorites.txt', it is the first time the user opening this app.
+        global firstTimeOpening
+        firstTimeOpening = True
         
     with open(path, 'r', encoding="utf-8") as file:
         return file.read()
@@ -93,6 +97,7 @@ root.attributes('-topmost', True)
 root.resizable(False, False)
 
 # Logic
+firstTimeOpening = False
 chars = "αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ+−×÷=≠<≤≥∞∈∉∪∩∂∇∫∬∮√∛∝∠∧∨⊥⊂⊃⊆⊇∼≈≡⊕⊗⊥∤∧∨∏∩∪"
 alwaysOnTop = IntVar(value=1)
 favorites = readFavourites()
@@ -163,5 +168,9 @@ gridButtons(charButtons, 5)
 gridButtons(favoriteCharButtons, 3)
 
 clipboard.set("") # Empty clipboard on start.
+
+if firstTimeOpening:
+    message = "Thanks for downloading my character map!\n\nHere's how to use it:\n• Click on any character to copy it to your clipboard.\n• Add your favorite characters to the 'Favorites' list for easy access.\n• If you need a character that's missing, just add it using the 'Clipboard' field at the bottom!"
+    messagebox.showinfo("Faseeh's CharMap", message)
 
 root.mainloop()
