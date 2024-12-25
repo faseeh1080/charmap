@@ -38,6 +38,7 @@ def alwaysOnTopCheckButtonAction():
 # Window
 root = Tk()
 root.title("Faseeh's CharMap")
+root.config(padx=6, pady=6)
 root.attributes('-topmost', True)
 root.resizable(False, False)
 
@@ -72,22 +73,31 @@ rootMenu.add_cascade(label="File", menu=fileMenu)
 rootMenu.add_cascade(label="View", menu=viewMenu)
 rootMenu.add_command(label="Help", command=lambda: webbrowser.open("https://faseeh-z.github.io/"))
 
-# Containers
-charFrame = ttk.Frame(root, padding="6 6 6 6") # To place character buttons.
+# Frames (1)
+allChars = ttk.Frame(root, padding="0 0 0 0", borderwidth=5, relief="solid") # Holds allChars frame.
+favoritesFrame = ttk.Frame(root, padding="0 0 0 0") # Holds fravoriteCharsFrame.
+
+allChars.grid(row=0, column=0)
+favoritesFrame.grid(row=0, column=1, sticky=N)
+
+## Frames (2)
+charFrame = ttk.Frame(allChars, padding="3 3 3 3") # Lists all characters.
+favoriteCharsFrame = ttk.Frame(favoritesFrame, padding="3 3 3 3") # Lists all favorite characters.
+
 charFrame.grid(row=1, column=0, sticky=N)
-favoritesFrame = ttk.Frame(root, padding="6 6 6 6")
-favoritesFrame.grid(row=1, column=1, sticky=N)
+favoriteCharsFrame.grid(row=1, column=0, sticky=N)
 
 # Widgets
-allCharsLabel = ttk.Label(root, text="All characters")
+allCharsLabel = ttk.Label(allChars, text="All characters")
+favoriteCharsLabel = ttk.Label(favoritesFrame, text="Favorites")
+
 allCharsLabel.grid(row=0, column=0)
-favoriteCharsLabel = ttk.Label(root, text="Favorites")
-favoriteCharsLabel.grid(row=0, column=1)
+favoriteCharsLabel.grid(row=0, column=0)
 
 ## Characters
 charButtons = createCharButtons(charFrame, chars)
 gridButtons(charButtons, 5)
-favoriteCharButtons = createCharButtons(favoritesFrame, favorites)
+favoriteCharButtons = createCharButtons(favoriteCharsFrame, favorites)
 gridButtons(favoriteCharButtons, 3)
 
 root.mainloop()
