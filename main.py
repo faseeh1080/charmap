@@ -8,8 +8,33 @@ def readFavourites():
     if not os.path.exists(path): # Create 'favorites.txt' if it doesn't exist.
         open(path, 'w').close()
         
-    with open(path, 'r') as file:
+    with open(path, 'r', encoding="utf-8") as file:
         return file.read()
+    
+def refreshFavorites():
+    with open("favorites.txt", 'w', encoding="utf-8") as file:
+        file.write(favorites)
+
+    # Destroy all favourite buttons.
+    for widget in favoriteCharsFrame.winfo_children():
+        widget.destroy()
+    # Create new buttons.
+    global favoriteCharButtons
+    favoriteCharButtons = createCharButtons(favoriteCharsFrame, favorites)
+    # Pack new buttons.
+    gridButtons(favoriteCharButtons, 3)
+
+def addToFavourites():
+    global favorites
+    favorites += clipboard.get()
+    favorites = ''.join(sorted(favorites))
+    refreshFavorites()
+
+def removeFromFavorites():
+    global favorites
+    favorites = favorites.replace(clipboard.get(), '')
+    favorites = ''.join(sorted(favorites))
+    refreshFavorites()
 
 def pasteToClipboard(stringToPaste):
     root.clipboard_clear()
@@ -106,8 +131,8 @@ allCharsLabel = ttk.Label(allChars, text="All characters")
 favoriteCharsLabel = ttk.Label(favoritesFrame, text="Favorites")
 clipboardLabel = ttk.Label(actionFrame, text="Clipboard :")
 clipboardInfo = ttk.Label(actionFrame, textvariable=clipboard)
-addButton = ttk.Button(actionFrame, text="Add to Favorites")
-removeButton = ttk.Button(actionFrame, text="Remove from Favorites")
+addButton = ttk.Button(actionFrame, text="Add to Favorites", command=addToFavourites)
+removeButton = ttk.Button(actionFrame, text="Remove from Favorites", command=removeFromFavorites)
 
 allCharsLabel.grid(row=0, column=0)
 favoriteCharsLabel.grid(row=0, column=0)
