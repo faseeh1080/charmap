@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-import keyboard
 
 root = Tk()
 root.title("Faseeh's CharMap")
@@ -12,6 +11,10 @@ charFrame.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
+def pasteToClipboard(stringToPaste):
+    root.clipboard_clear()
+    root.clipboard_append(stringToPaste)
+
 chars = "∑∏∞∂∫∇±≠≤≥≈∝√∛∜∴∵∟⊥∞"
 charButtons = []
 numberOfColumns = 3
@@ -22,7 +25,7 @@ for char in chars:
         ttk.Button(
             charFrame,
             text=char,
-            command=lambda: keyboard.write(char)
+            command=lambda c=char: pasteToClipboard(c)
         )
     )
     if currentColumn >= numberOfColumns:
