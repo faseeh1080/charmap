@@ -130,7 +130,7 @@ viewMenu.add_command(label="Reset Scaling", command=pasteToClipboard("Reset"))
 ## Help Menu
 helpMenu = Menu(rootMenu, tearoff=0)
 helpMenu.add_command(label="Quick help", command=help)
-helpMenu.add_command(label="From the Web", command=lambda: webbrowser.open("https://faseeh-z.github.io/"))
+helpMenu.add_command(label="From the Web", command=lambda: webbrowser.open("https://faseeh-z.github.io/content/download/charmap.html"))
 
 ## Configure the menus.
 rootMenu.add_cascade(label="File", menu=fileMenu)
