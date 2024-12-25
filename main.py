@@ -53,7 +53,7 @@ root.attributes('-topmost', True)
 root.resizable(False, False)
 
 # Logic
-chars = "∀∂∃∅∆∇∞∫∏∑√≈≠≡≤≥⊂⊃⊄⊆⊇⊥⊮⊰⊱∪∩∧∨∼≃≅≆∝∞∠∫αβγδεζηθικλμνξοπρσςτυχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ"
+chars = "αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ+−×÷=≠<≤≥∞∈∉∪∩∂∇∫∬∮√∛∝∠∧∨⊥⊂⊃⊆⊇∼≈≡⊕⊗⊥∤∧∨∏∩∪"
 alwaysOnTop = IntVar(value=1)
 favorites = readFavourites()
 clipboard = StringVar() # Currently selected character. Connected to clipboardInfo Label.
