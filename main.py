@@ -5,6 +5,7 @@ import webbrowser
 def pasteToClipboard(stringToPaste):
     root.clipboard_clear()
     root.clipboard_append(stringToPaste)
+    clipboard.set(stringToPaste)
 
 def createCharButtons(frame, chars):
     charButtons = []
@@ -46,6 +47,8 @@ root.resizable(False, False)
 chars = "∑∏∞∂∫∇±≠≤≥≈∝√∛∜∴∵∟⊥∞"
 alwaysOnTop = IntVar(value=1)
 favorites = "abcd"
+clipboard = StringVar() # Currently selected character. Connected to clipboardInfo Label.
+clipboard.set("None")
 
 # Menu
 rootMenu = Menu(root)
@@ -76,9 +79,11 @@ rootMenu.add_command(label="Help", command=lambda: webbrowser.open("https://fase
 # Frames (1)
 allChars = ttk.Frame(root, padding="0 0 0 0", borderwidth=5, relief="solid") # Holds allChars frame.
 favoritesFrame = ttk.Frame(root, padding="0 0 0 0") # Holds fravoriteCharsFrame.
+actionFrame = ttk.Frame (root, padding="0 6 0 0")
 
 allChars.grid(row=0, column=0)
 favoritesFrame.grid(row=0, column=1, sticky=N)
+actionFrame.grid(row=1, column=0, columnspan=2)
 
 ## Frames (2)
 charFrame = ttk.Frame(allChars, padding="3 3 3 3") # Lists all characters.
@@ -87,17 +92,26 @@ favoriteCharsFrame = ttk.Frame(favoritesFrame, padding="3 3 3 3") # Lists all fa
 charFrame.grid(row=1, column=0, sticky=N)
 favoriteCharsFrame.grid(row=1, column=0, sticky=N)
 
-# Widgets
+# Widgets (1)
 allCharsLabel = ttk.Label(allChars, text="All characters")
 favoriteCharsLabel = ttk.Label(favoritesFrame, text="Favorites")
+clipboardLabel = ttk.Label(actionFrame, text="Clipboard :")
+clipboardInfo = ttk.Label(actionFrame, textvariable=clipboard)
+addButton = ttk.Button(actionFrame, text="Add to Favorites")
+removeButton = ttk.Button(actionFrame, text="Remove from Favorites")
 
 allCharsLabel.grid(row=0, column=0)
 favoriteCharsLabel.grid(row=0, column=0)
+clipboardLabel.grid(row=0, column=0)
+clipboardInfo.grid(row=0, column=1)
+addButton.grid(row=0, column=2)
+removeButton.grid(row=0, column=3)
 
-## Characters
+# Widgets (2)
 charButtons = createCharButtons(charFrame, chars)
-gridButtons(charButtons, 5)
 favoriteCharButtons = createCharButtons(favoriteCharsFrame, favorites)
+
+gridButtons(charButtons, 5)
 gridButtons(favoriteCharButtons, 3)
 
 root.mainloop()
