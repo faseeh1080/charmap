@@ -5,15 +5,20 @@ import os
 import platform
 import webbrowser
 
-def readFavourites():
+def initialize() -> bool:
+    """Returns True if it is the first time the user is opening the app."""
     path = "favorites.txt"
     if not os.path.exists(path): # Create 'favorites.txt' if it doesn't exist.
-        open(path, 'w').close()
+        with open (path, 'w', encoding="utf-8") as file:
+            file.write("±√π∑∞θαβ≠≤≥∅∫≈±Ω")
         # Since there is no 'favorites.txt', it is the first time the user opening this app.
-        global firstTimeOpening
         firstTimeOpening = True
-        
-    with open(path, 'r', encoding="utf-8") as file:
+    else:
+        firstTimeOpening = False
+    return firstTimeOpening
+
+def readFavourites():
+    with open('favorites.txt', 'r', encoding="utf-8") as file:
         return file.read()
     
 def refreshFavorites():
@@ -27,7 +32,7 @@ def refreshFavorites():
     global favoriteCharButtons
     favoriteCharButtons = createCharButtons(favoriteCharsFrame, favorites)
     # Pack new buttons.
-    gridButtons(favoriteCharButtons, 3)
+    gridButtons(favoriteCharButtons, 4)
 
 def addToFavourites():
     global favorites
@@ -90,19 +95,21 @@ def alwaysOnTopCheckButtonAction():
         root.attributes('-topmost', False)
 
 def help():
-    messagebox.showinfo("Quick help", "• Click on any character to copy it to your clipboard.\n• Add your favorite characters to the 'Favorites' list for easy access.\n• If you need a character that's missing, just add it using the 'Clipboard' field at the bottom!\n\n'Help/From the Web' for more information.")
+    messagebox.showinfo("Quick help", "• Click on any character to copy it to your clipboard.\n• Add your favorite characters to the 'Favorites' list for easy access.\n• If you need a character that's missing, just add it using the 'Clipboard' field at the right!\n\n'Help/From the Web' for more information.")
 
 # Window
 root = Tk()
 root.title("Faseeh's CharMap")
-root.iconbitmap("assets/icon.ico")
+try:
+    root.iconbitmap("assets/icon.ico")
+except:
+    print("Unable to load icon file")
 root.config(padx=6, pady=6)
 root.attributes('-topmost', True)
 root.resizable(False, False)
 
 # Logic
-firstTimeOpening = False
-chars = "αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ+−×÷=≠<≤≥∞∈∉∪∩∂∇∫∬∮√∛∝∠∧∨⊥⊂⊃⊆⊇∼≈≡⊕⊗⊥∤∧∨∏∩∪"
+firstTimeOpening = initialize()
 alwaysOnTop = IntVar(value=1)
 favorites = readFavourites()
 clipboard = StringVar() # Currently selected character. Connected to clipboardInfo Label.
@@ -139,47 +146,34 @@ rootMenu.add_cascade(label="View", menu=viewMenu)
 rootMenu.add_cascade(label="Help", menu=helpMenu)
 
 # Frames (1)
-allChars = ttk.Frame(root, padding="0 0 0 0", borderwidth=5, relief="solid") # Holds allChars frame.
-favoritesFrame = ttk.Frame(root, padding="0 0 0 0") # Holds fravoriteCharsFrame.
 actionFrame = ttk.Frame (root, padding="0 6 0 0")
-
-allChars.grid(row=0, column=0)
-favoritesFrame.grid(row=0, column=1, sticky=N)
-actionFrame.grid(row=1, column=0, columnspan=2)
+actionFrame.grid(row=0, column=1)
 
 ## Frames (2)
-charFrame = ttk.Frame(allChars, padding="3 3 3 3") # Lists all characters.
-favoriteCharsFrame = ttk.Frame(favoritesFrame, padding="3 3 3 3") # Lists all favorite characters.
-
-charFrame.grid(row=1, column=0, sticky=N)
-favoriteCharsFrame.grid(row=1, column=0, sticky=N)
+favoriteCharsFrame = ttk.Frame(root, padding="3 3 3 3") # Lists all favorite characters.
+favoriteCharsFrame.grid(row=0, column=0, sticky=N)
 
 # Widgets (1)
-allCharsLabel = ttk.Label(allChars, text="All characters")
-favoriteCharsLabel = ttk.Label(favoritesFrame, text="Favorites")
 clipboardLabel = ttk.Label(actionFrame, text="Clipboard :")
 clipboardInfo = ttk.Entry(actionFrame, textvariable=clipboard, width=5)
-addButton = ttk.Button(actionFrame, text="Add to Favorites", command=addToFavourites)
-removeButton = ttk.Button(actionFrame, text="Remove from Favorites", command=removeFromFavorites)
+addButton = ttk.Button(actionFrame, text="Add", command=addToFavourites)
+removeButton = ttk.Button(actionFrame, text="Remove", command=removeFromFavorites)
 
-allCharsLabel.grid(row=0, column=0)
-favoriteCharsLabel.grid(row=0, column=0)
-clipboardLabel.grid(row=0, column=0)
-clipboardInfo.grid(row=0, column=1, padx=2)
-addButton.grid(row=0, column=2, padx=2)
-removeButton.grid(row=0, column=3)
+ACTION_FRAME_GAP = 2
+clipboardLabel.grid(row=0, column=0, padx=ACTION_FRAME_GAP, pady=ACTION_FRAME_GAP)
+clipboardInfo.grid(row=1, column=0, padx=ACTION_FRAME_GAP, pady=ACTION_FRAME_GAP)
+addButton.grid(row=2, column=0, padx=ACTION_FRAME_GAP, pady=ACTION_FRAME_GAP)
+removeButton.grid(row=3, column=0, padx=ACTION_FRAME_GAP, pady=ACTION_FRAME_GAP)
 
 # Widgets (2)
-charButtons = createCharButtons(charFrame, chars)
 favoriteCharButtons = createCharButtons(favoriteCharsFrame, favorites)
 
-gridButtons(charButtons, 5)
-gridButtons(favoriteCharButtons, 3)
+gridButtons(favoriteCharButtons, 4)
 
 clipboard.set("") # Empty clipboard on start.
 
 if firstTimeOpening:
-    message = "Thanks for downloading my character map!\n\nHere's how to use it:\n• Click on any character to copy it to your clipboard.\n• Add your favorite characters to the 'Favorites' list for easy access.\n• If you need a character that's missing, just add it using the 'Clipboard' field at the bottom!"
+    message = "Thanks for downloading my character map!\n\nHere's how to use it:\n• Click on any character to copy it to your clipboard.\n• Add your favorite characters to the 'Favorites' list for easy access.\n• If you need a character that's missing, just add it using the 'Clipboard' field at the right!"
     messagebox.showinfo("Faseeh's CharMap", message)
 
 root.mainloop()
